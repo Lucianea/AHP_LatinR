@@ -1,0 +1,4 @@
+"0","matriz_julgamento(2)"
+"2","Error in matriz[i, j] <- valor : 
+  number of items to replace is not a multiple of replacement length
+"
