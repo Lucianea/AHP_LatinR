@@ -53,11 +53,9 @@ establecido ;
 
 
 ---
-background-image: url("https://www.researchgate.net/profile/Marcos_Dos_Santos6/publication/320413012/figure/fig1/AS:549943293079552@1508128106968/Figura-1-Estrutura-hierarquica-do-Metodo-AHP.png")
-background-position: 50% 50%
-class: center, bottom, inverse
+background-image: url("hierarquia.png")
 
-# Hierarquia
+
 
 ---
 #Instalação do pacote
@@ -85,9 +83,9 @@ library(AHP)
 
 ```{r}
 base<- 
-  ler("BD5.xlsx")
+  ler("TabelaR.xlsx")
 
-class(base)
+base
 ```
 
 
@@ -123,7 +121,7 @@ calcula_prioridades(base)
 #Aplica a ahp para uma lista de matrizes ou um arquivo excel devidamente formatado: ahp_geral()
 
 ```{r}
-tabela = ahp_geral(base, mapeamento = c(0,3,2)); tabela
+tabela = ahp_geral(base, mapeamento = c(0,3,2),c("R","Python","C#")); tabela
 ```
 
 
@@ -142,6 +140,23 @@ ranque(tabela)
 ```{r}
 formata_tabela(tabela)
 ```
+
+
+
+---
+
+#Planos para o futuro:
+--
+
+
+- Melhorar desempenho computacional das funções;
+- Desenvolver tutorial para as funções;
+- Desenvolver função que gera imagem da hierarquia;
+- Interatividade com o shiny.
+
+
+
+--
 
 
 

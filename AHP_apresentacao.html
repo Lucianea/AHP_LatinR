@@ -58,11 +58,9 @@ establecido ;
 
 
 ---
-background-image: url("https://www.researchgate.net/profile/Marcos_Dos_Santos6/publication/320413012/figure/fig1/AS:549943293079552@1508128106968/Figura-1-Estrutura-hierarquica-do-Metodo-AHP.png")
-background-position: 50% 50%
-class: center, bottom, inverse
+background-image: url("hierarquia.png")
 
-# Hierarquia
+
 
 ---
 #Instalação do pacote
@@ -92,13 +90,115 @@ library(AHP)
 
 ```r
 base&lt;- 
-  ler("BD5.xlsx")
+  ler("TabelaR.xlsx")
 
-class(base)
+base
 ```
 
 ```
-## [1] "list"
+## $`Melhor linguagem`
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1   1    1.25     5
+## 2   0.8  1        4
+## 3   0.2  0.25     1
+## 
+## $Desempenho
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 1         3     3
+## 2 0.333     1     1
+## 3 0.333     1     1
+## 
+## $Análise
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 1         3 0.5  
+## 2 0.333     1 0.167
+## 3 2         6 1    
+## 
+## $Suporte
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 1       0.6   1.5
+## 2 1.67    1     2.5
+## 3 0.667   0.4   1  
+## 
+## $Performance
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 1       1.2   2.5
+## 2 0.833   1     2  
+## 3 0.4     0.5   1  
+## 
+## $Multiplataforma
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1   1     1       2
+## 2   1     1       2
+## 3   0.5   0.5     1
+## 
+## $Intuitividade
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 1     1.5    2.25
+## 2 0.667 1      1.5 
+## 3 0.444 0.667  1   
+## 
+## $Gráficos
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1   1   2         5
+## 2   0.5 1         3
+## 3   0.2 0.333     1
+## 
+## $Sintaxe
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 1     1.5     3  
+## 2 0.667 1       1.5
+## 3 0.333 0.667   1  
+## 
+## $Biblioteca
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 1       0.5   1.5
+## 2 2       1     2  
+## 3 0.667   0.5   1  
+## 
+## $Comunidade
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 1       3     5.2
+## 2 0.333   1     2  
+## 3 0.192   0.5   1  
+## 
+## $Material
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 1     2      2.45
+## 2 0.5   1      1.3 
+## 3 0.408 0.769  1   
+## 
+## $Popularidade
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 1     2       3  
+## 2 0.5   1       1.4
+## 3 0.333 0.714   1
 ```
 
 
@@ -122,7 +222,7 @@ CR(base[[1]])
 ```
 
 ```
-## [1] 0.08246797
+## [1] 8.540177e-16
 ```
 
 
@@ -136,32 +236,44 @@ calcula_prioridades(base)
 ```
 
 ```
-## $`Lugar para morar`
-## [1] 0.1006539 0.2255355 0.6738106
+## $`Melhor linguagem`
+## [1] 0.5 0.4 0.1
 ## 
-## $Preço
-## [1] 0.53682456 0.36429151 0.09888393
+## $Desempenho
+## [1] 0.6 0.2 0.2
 ## 
-## $Transporte
-## [1] 0.1570558 0.5936337 0.2493105
+## $Análise
+## [1] 0.3 0.1 0.6
 ## 
-## $Segurança
-## [1] 0.8571429 0.1428571
+## $Suporte
+## [1] 0.3 0.5 0.2
 ## 
-## $Ônibus
-## [1] 0.06032764 0.70852417 0.23114819
+## $Performance
+## [1] 0.4489235 0.3690469 0.1820296
 ## 
-## $Pavimento
-## [1] 0.2582850 0.6369856 0.1047294
+## $Multiplataforma
+## [1] 0.4 0.4 0.2
 ## 
-## $Pedágio
-## [1] 0.75824570 0.15124689 0.09050742
+## $Intuitividade
+## [1] 0.4736842 0.3157895 0.2105263
 ## 
-## $Guardas
-## [1] 0.5278361 0.3325159 0.1396479
+## $Gráficos
+## [1] 0.5815521 0.3089956 0.1094523
 ## 
-## $Delegacias
-## [1] 0.1570558 0.5936337 0.2493105
+## $Sintaxe
+## [1] 0.5069483 0.3070621 0.1859896
+## 
+## $Biblioteca
+## [1] 0.2848756 0.4977236 0.2174008
+## 
+## $Comunidade
+## [1] 0.6523291 0.2280665 0.1196045
+## 
+## $Material
+## [1] 0.5235162 0.2669946 0.2094892
+## 
+## $Popularidade
+## [1] 0.5465316 0.2670530 0.1864154
 ```
 
 
@@ -170,22 +282,22 @@ calcula_prioridades(base)
 
 
 ```r
-tabela = ahp_geral(base, mapeamento = c(0,3,2)); tabela
+tabela = ahp_geral(base, mapeamento = c(0,3,2),c("R","Python","C#")); tabela
 ```
 
 ```
 ## # A tibble: 9 x 6
-##   Criterios            Pesos       A       B       C     CR
-##   &lt;chr&gt;                &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
-## 1 ---Lugar para morar 1.000  0.453   0.405   0.142   0.0825
-## 2 --Preço             0.101  0.0540  0.0367  0.00995 0.0904
-## 3 --Transporte        0.226  0.0794  0.119   0.0273  0.0516
-## 4 -Ônibus             0.0354 0.00214 0.0251  0.00819 0.0685
-## 5 -Pavimento          0.134  0.0346  0.0853  0.0140  0.0370
-## 6 -Pedágio            0.0562 0.0426  0.00850 0.00509 0.0311
-## 7 --Segurança         0.674  0.320   0.249   0.105   0     
-## 8 -Guardas            0.578  0.305   0.192   0.0807  0.0516
-## 9 -Delegacias         0.0963 0.0151  0.0571  0.0240  0.0516
+##   Criterios            Pesos      R  Python    `C#`       CR
+##   &lt;chr&gt;                &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+## 1 ---Melhor linguagem 1      0.532  0.271   0.197   8.54e-16
+## 2 --Desempenho        0.5    0.3    0.1     0.1     0.      
+## 3 --Análise           0.400  0.184  0.136   0.0804  0.      
+## 4 -Performance        0.120  0.0539 0.0443  0.0218  1.78e- 4
+## 5 -Multiplataforma    0.0400 0.016  0.0160  0.008   0.      
+## 6 -Intuitividade      0.24   0.114  0.0758  0.0505  1.71e-15
+## 7 --Suporte           0.100  0.0428 0.0246  0.0126  0.      
+## 8 -Gráficos           0.03   0.0174 0.00927 0.00328 3.55e- 3
+## 9 -Sintaxe            0.0500 0.0253 0.0154  0.00930 8.85e- 3
 ```
 
 
@@ -202,9 +314,9 @@ ranque(tabela)
 ## # A tibble: 3 x 3
 ##   Ranque Alternativas Pesos
 ##    &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;
-## 1      1 A            0.453
-## 2      2 B            0.405
-## 3      3 C            0.142
+## 1      1 R            0.532
+## 2      2 Python       0.271
+## 3      3 C#           0.197
 ```
 
 
@@ -222,87 +334,104 @@ formata_tabela(tabela)
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; Criterios &lt;/th&gt;
    &lt;th style="text-align:center;"&gt; Pesos &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; A &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; B &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; C &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; R &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Python &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; C# &lt;/th&gt;
    &lt;th style="text-align:center;"&gt; CR &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;---Lugar para morar&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;---Melhor linguagem&lt;/span&gt; &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; &lt;span&gt;100%  &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="font-weight: bold; font-size: 130%"&gt;45.34%&lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span&gt;40.47%&lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span&gt;14.19%&lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;8.25%&lt;/span&gt; &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--Preço            &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #d2f2e0; border-radius: 4px; color: black; display: block"&gt;10.07%&lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #98c1f7; border-radius: 4px; color: black; display: block"&gt;5.4%  &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #a2c7fa; border-radius: 4px; color: black; display: block"&gt;3.67% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #b1d1fd; border-radius: 4px; color: black; display: block"&gt;1%    &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;9.04%&lt;/span&gt; &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--Transporte       &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #bde9d0; border-radius: 4px; color: black; display: block"&gt;22.55%&lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #89b7f4; border-radius: 4px; color: black; display: block"&gt;7.94% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #73a9ee; border-radius: 4px; color: black; display: block"&gt;11.89%&lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #a7cafb; border-radius: 4px; color: black; display: block"&gt;2.73% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;5.16%&lt;/span&gt; &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;-Ônibus            &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #def7e9; border-radius: 4px; color: black; display: block"&gt;3.54% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #b6d4ff; border-radius: 4px; color: black; display: block"&gt;0.21% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #a8cbfb; border-radius: 4px; color: black; display: block"&gt;2.51% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #b2d1fe; border-radius: 4px; color: black; display: block"&gt;0.82% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;6.85%&lt;/span&gt; &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;-Pavimento         &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #cdf0dc; border-radius: 4px; color: black; display: block"&gt;13.39%&lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #a3c8fa; border-radius: 4px; color: black; display: block"&gt;3.46% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #86b5f3; border-radius: 4px; color: black; display: block"&gt;8.53% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #afcffd; border-radius: 4px; color: black; display: block"&gt;1.4%  &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;3.7% &lt;/span&gt; &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;-Pedágio           &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #daf5e6; border-radius: 4px; color: black; display: block"&gt;5.62% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9ec5f9; border-radius: 4px; color: black; display: block"&gt;4.26% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #b2d1fe; border-radius: 4px; color: black; display: block"&gt;0.85% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #b4d2fe; border-radius: 4px; color: black; display: block"&gt;0.51% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;3.11%&lt;/span&gt; &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--Segurança        &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #71ca97; border-radius: 4px; color: black; display: block"&gt;67.38%&lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #0060d3; border-radius: 4px; color: black; display: block"&gt;32%   &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #2879dc; border-radius: 4px; color: black; display: block"&gt;24.92%&lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #7baef0; border-radius: 4px; color: black; display: block"&gt;10.47%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="font-weight: bold; font-size: 130%"&gt;53.2% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span&gt;27.07%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span&gt;19.73%&lt;/span&gt; &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;0%   &lt;/span&gt; &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;-Guardas           &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #81d0a3; border-radius: 4px; color: black; display: block"&gt;57.76%&lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #0865d5; border-radius: 4px; color: black; display: block"&gt;30.49%&lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #498ee4; border-radius: 4px; color: black; display: block"&gt;19.2% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #89b7f4; border-radius: 4px; color: black; display: block"&gt;8.07% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;5.16%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--Desempenho       &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #71ca97; border-radius: 4px; color: black; display: block"&gt;50%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #0060d3; border-radius: 4px; color: black; display: block"&gt;30%   &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #7aaef0; border-radius: 4px; color: black; display: block"&gt;10%   &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #7aaef0; border-radius: 4px; color: black; display: block"&gt;10%   &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;0%   &lt;/span&gt; &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;-Delegacias        &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #d3f2e1; border-radius: 4px; color: black; display: block"&gt;9.63% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #aecffd; border-radius: 4px; color: black; display: block"&gt;1.51% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #96bff7; border-radius: 4px; color: black; display: block"&gt;5.71% &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #a9ccfb; border-radius: 4px; color: black; display: block"&gt;2.4%  &lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;5.16%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--Análise          &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #88d3a8; border-radius: 4px; color: black; display: block"&gt;40%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #478de4; border-radius: 4px; color: black; display: block"&gt;18.36%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #64a0eb; border-radius: 4px; color: black; display: block"&gt;13.61%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #86b5f3; border-radius: 4px; color: black; display: block"&gt;8.04% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;0%   &lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;-Performance       &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #c9eed9; border-radius: 4px; color: black; display: block"&gt;12%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #96c0f7; border-radius: 4px; color: black; display: block"&gt;5.39% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9cc3f8; border-radius: 4px; color: black; display: block"&gt;4.43% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #aaccfc; border-radius: 4px; color: black; display: block"&gt;2.18% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;0.02%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;-Multiplataforma   &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #dbf6e7; border-radius: 4px; color: black; display: block"&gt;4% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #aecffd; border-radius: 4px; color: black; display: block"&gt;1.6%  &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #aecffd; border-radius: 4px; color: black; display: block"&gt;1.6%  &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #b3d2fe; border-radius: 4px; color: black; display: block"&gt;0.8%  &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;0%   &lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;-Intuitividade     &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ade2c4; border-radius: 4px; color: black; display: block"&gt;24%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #72a8ee; border-radius: 4px; color: black; display: block"&gt;11.37%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #89b7f4; border-radius: 4px; color: black; display: block"&gt;7.58% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #99c1f8; border-radius: 4px; color: black; display: block"&gt;5.05% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;0%   &lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--Suporte          &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #cdf0dc; border-radius: 4px; color: black; display: block"&gt;10%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9dc4f9; border-radius: 4px; color: black; display: block"&gt;4.28% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #a8cbfb; border-radius: 4px; color: black; display: block"&gt;2.46% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #b0d0fd; border-radius: 4px; color: black; display: block"&gt;1.26% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;0%   &lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;-Gráficos          &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #def7e9; border-radius: 4px; color: black; display: block"&gt;3% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #adcefc; border-radius: 4px; color: black; display: block"&gt;1.74% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #b2d1fe; border-radius: 4px; color: black; display: block"&gt;0.93% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #b6d4ff; border-radius: 4px; color: black; display: block"&gt;0.33% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;0.36%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;-Sintaxe           &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #d9f5e5; border-radius: 4px; color: black; display: block"&gt;5% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #a8cbfb; border-radius: 4px; color: black; display: block"&gt;2.53% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #aecffd; border-radius: 4px; color: black; display: block"&gt;1.54% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #b2d1fe; border-radius: 4px; color: black; display: block"&gt;0.93% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;0.88%&lt;/span&gt; &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+
+
+
+---
+
+#Planos para o futuro:
+--
+
+
+- Melhorar desempenho computacional das funções;
+- Desenvolver tutorial para as funções;
+- Desenvolver função que gera imagem da hierarquia;
+- Interatividade com o shiny.
+
+
+
+--
 
 
 
@@ -353,7 +482,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 (function() {
