@@ -25,6 +25,8 @@ class: center, middle
 # Tomar una decisión, establecer una meta
 
 ### Comprar un automóvil
+### Elige un programa
+### Elige un lugar de vacaciones
 
 ---
 class: inverse, center, middle
@@ -52,13 +54,10 @@ establecido ;
 --
 
 
----
-background-image: url("hierarquia.png")
-
 
 
 ---
-#Instalação do pacote
+#Instalación de paquete
 
 ```{r}
 #install.packages("devtools")
@@ -70,20 +69,24 @@ library(AHP)
 
 ---
 
-#Funcões do pacote
+background-image: url("rplot.png")
 
-
-
-
+#Jerarquía
 
 
 ---
 
-# Leitura dos dados: ler()
+background-image: url("excel.png")
+background-size: contain
+
+#Organización de datos
+
+---
+#Lectura de datos: ler()
 
 ```{r}
 base<- 
-  ler("TabelaR.xlsx")
+  ler("tabelaLR.xlsx")
 
 base
 ```
@@ -91,26 +94,26 @@ base
 
 ---
 
-#Cria matrizes pareadas e testa sua consistência: matrizJulgamento()
+
+
+#Crea matrices emparejadas y pruebe su consistencia: matrizJulgamento()
+
+![](julgamento.png)
+
+**matriz_julgamento(qtd_comparacoes, CR = TRUE, qtd_matrizes)**
+
+---
+#Cálculo del grado de consistencia: CR()
 
 ```{r}
-#matriz_julgamento(3)
-## Tem que interagir pelo console
+lapply(base, function(x) CR(x))
 
 ```
 
 
 ---
-#Cálculo do grau de consistência: CR()
 
-```{r}
-CR(base[[1]])
-```
-
-
----
-
-#Cálculo de pesos das matrizes: calcula_prioridades()
+#Cálculo de peso matricial: calcula_prioridades()
 
 ```{r}
 calcula_prioridades(base)
@@ -118,16 +121,16 @@ calcula_prioridades(base)
 
 
 ---
-#Aplica a ahp para uma lista de matrizes ou um arquivo excel devidamente formatado: ahp_geral()
+#Aplique ahp a una lista de matriz con formato adecuado o archivo de Excel: ahp_geral()
 
 ```{r}
-tabela = ahp_geral(base, mapeamento = c(0,3,2),c("R","Python","C#")); tabela
+tabela = ahp_geral(base, mapeamento = c(0,3),c("R","Python","C++","Java")); tabela
 ```
-
+**ahp_geral(base, mapeamento = "PADRÃO", nomes_alternativas = "PADRÃO")**
 
 
 ---
-#Ranqueia as alternativas de uma tabela ahp: ranque()
+#Clasifique las alternativas de una tabla ahp: ranque()
 
 ```{r}
 ranque(tabela)
@@ -135,7 +138,7 @@ ranque(tabela)
 
 
 ---
-#Formata a tabela do resultado para exportação: formata_tabela()
+#Formatea la tabla de resultados para la exportación: formata_tabela()
 
 ```{r}
 formata_tabela(tabela)
@@ -145,19 +148,57 @@ formata_tabela(tabela)
 
 ---
 
-#Planos para o futuro:
+```{r}
+formata_tabela(tabela, cores = "BRANCO")
+```
+
+---
+
+```{r}
+formata_tabela(tabela, cores = "CINZA")
+```
+
+
+---
+#Bases de datos ejemplos : BD1, BD2, BD3, BD4
+
+
+
+```{r}
+ahp_geral(BD1) # No tiene subcriterios
+```
+
+
+---
+
+```{r}
+ahp_geral(BD3, c(3,3,3))
+```
+
+
+---
+
+#Planes para el futuro:
 --
 
 
-- Melhorar desempenho computacional das funções;
-- Desenvolver tutorial para as funções;
-- Desenvolver função que gera imagem da hierarquia;
-- Interatividade com o shiny.
-
+- Mejorar el rendimiento computacional de las funciones;
+- Desarrollar tutorial para las funciones;
+- Desarrollar la función de imagen jerárquica;
+- Interatividad con shiny.
 
 
 --
 
 
+
+---
+class: center, middle
+
+Gracias!!!
+
+e-mail: lucianea@id.uff.br
+
+twitter: @alcoforadouff
 
 ---

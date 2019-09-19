@@ -31,3 +31,36 @@ popu$AddChild("Alternativas")
 
 
 plot(modelo)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+########
+
+
+
+modelo = Node$new("Elige un programa")
+Rendimiento = modelo$AddChild("Rendimiento")
+Rendimiento$AddChild("Alternativas")
+suporte = modelo$AddChild("Soporte")
+comu = suporte$AddChild("Comunidad")
+comu$AddChild("Alternativas")
+Mat = suporte$AddChild("Material")
+Mat$AddChild("Alternativas")
+popu = suporte$AddChild("Popularidad")
+popu$AddChild("Alternativas")
+
+plot(modelo)

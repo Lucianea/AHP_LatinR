@@ -1,3 +1,0 @@
-"0","#install.packages(""devtools"")"
-"0","#devtools::install_github(""Lyncoln/AHP2"")"
-"0","library(AHP)"
