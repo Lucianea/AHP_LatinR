@@ -69,14 +69,14 @@ library(AHP)
 
 ---
 
-background-image: url("Rplot.png")
+background-image: url("figuras//rplot.png")
 
 #Jerarquía
 
 
 ---
 
-background-image: url("Excel.png")
+background-image: url("figuras//excel.png")
 background-size: contain
 
 #Organización de datos
@@ -98,7 +98,7 @@ base
 
 #Crea matrices emparejadas y pruebe su consistencia: matrizJulgamento()
 
-![](julgamento.png)
+![](figuras//julgamento.png)
 
 **matriz_julgamento(qtd_comparacoes, CR = TRUE, qtd_matrizes)**
 
