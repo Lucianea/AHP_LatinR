@@ -12,7 +12,28 @@ output:
       countIncrementalSlides: false
 ---
 
+<style type="text/css">
+body, td {
+   font-size: 14px;
+}
+code.r{
+  font-size: 20px;
+}
+pre {
+  font-size: 20px
+}
+.remark-slide-content {
+  font-size: 28px;
+  padding: 20px 80px 20px 80px;
+}
+.remark-code, .remark-inline-code {
+  background: #000000;
+}
+.remark-code {
+  font-size: 16px;
+}
 
+</style>
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
@@ -69,44 +90,19 @@ library(AHP)
 
 ---
 
-background-image: url("figuras//rplot.png")
+#Bases de datos ejemplos : BD1, BD2, BD3, BD4
+##Jerarquía BD1
 
-#Jerarquía
-
-
----
-
-background-image: url("figuras//excel.png")
-background-size: contain
-
-#Organización de datos
-
----
-#Lectura de datos: ler()
-
-```{r}
-base<- 
-  ler("tabelaLR.xlsx")
-
-base
-```
-
-
----
+![](figuras//carros.png)
 
 
 
-#Crea matrices emparejadas y pruebe su consistencia: matrizJulgamento()
-
-![](figuras//julgamento.png)
-
-**matriz_julgamento(qtd_comparacoes, CR = TRUE, qtd_matrizes)**
 
 ---
 #Cálculo del grado de consistencia: CR()
 
 ```{r}
-lapply(base, function(x) CR(x))
+lapply(BD1, function(x) CR(x))
 
 ```
 
@@ -116,7 +112,7 @@ lapply(base, function(x) CR(x))
 #Cálculo de peso matricial: calcula_prioridades()
 
 ```{r}
-calcula_prioridades(base)
+calcula_prioridades(BD1)
 ```
 
 
@@ -124,7 +120,8 @@ calcula_prioridades(base)
 #Aplique ahp a una lista de matriz con formato adecuado o archivo de Excel: ahp_geral()
 
 ```{r}
-tabela = ahp_geral(base, mapeamento = c(0,3),c("R","Python","C++","Java")); tabela
+tabela = ahp_geral(BD1) # No tiene subcriterios
+
 ```
 **ahp_geral(base, mapeamento = "PADRÃO", nomes_alternativas = "PADRÃO")**
 
@@ -160,19 +157,52 @@ formata_tabela(tabela, cores = "CINZA")
 
 
 ---
-#Bases de datos ejemplos : BD1, BD2, BD3, BD4
+#Crea matrices emparejadas y pruebe su consistencia: matrizJulgamento()
 
+![](figuras//julgamento.png)
+**matriz_julgamento(qtd_comparacoes, CR = TRUE, qtd_matrizes = 1)**
+---
 
+#Lectura de datos: ler()
 
 ```{r}
-ahp_geral(BD1) # No tiene subcriterios
+base<- 
+  ler("tabelaLR.xlsx")
+length(base)
+base[1:2]
 ```
+---
 
+#Jerarquía
+
+![](figuras//rplot.png)
+
+---
+#Organización de datos
+
+
+![](figuras//excel.png)
 
 ---
 
 ```{r}
-ahp_geral(BD3, c(3,3,3))
+
+tabela2 = ahp_geral(base, mapeamento = c(0,3),
+                   c("R","Python","C++","Java")); tabela
+```
+
+
+---
+#Tabela formatada:
+```{r}
+formata_tabela(tabela2, cores = "CINZA")
+```
+---
+
+#Ranque: 
+
+```{r}
+ranque(tabela2)
 ```
 
 

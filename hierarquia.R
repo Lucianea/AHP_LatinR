@@ -64,3 +64,20 @@ popu = suporte$AddChild("Popularidad")
 popu$AddChild("Alternativas")
 
 plot(modelo)
+
+
+
+#######
+
+
+
+
+
+
+modelo = Node$new("Comprar um carro")
+modelo$AddChild("Conforto")$AddChild("Alternativas")
+modelo$AddChild("Aquisição")$AddChild("Alternativas")
+modelo$AddChild("Prestígio")$AddChild("Alternativas")
+modelo$AddChild("Revenda")$AddChild("Alternativas")
+modelo$AddChild("Manutenção")$AddChild("Alternativas")
+plot(modelo)
