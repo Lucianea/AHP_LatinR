@@ -45,6 +45,20 @@ pre {
 
 
 
+
+Estudo sobre o método AHP e criação de um pacote.
+
+Projeto PIBIC 2018/19 - Universidade Federal Fluminense
+
+Grupo de Pesquisa: Estatística com R
+
+Início: agosto de 2018
+
+Plataforma Github
+
+Linguagem: R
+
+
 ---
 class: center, middle
 
@@ -55,9 +69,45 @@ class: center, middle
 ### Elige un lugar de vacaciones
 
 ---
-class: inverse, center, middle
+class: inverse, middle
 
 #  ¿Cuales son las alternativas?
+
+### Comprar un automóvil: Modelo A, B o C
+
+### Elige un programa: R, Python, C++ o Java
+
+### Elige un lugar de vacaciones: Rio de Janeiro, Santiago de Chile o Buenos Aires
+
+
+---
+class: center, middle
+
+# Estoy 100% seguro de que estoy 0% seguro de lo que voy a hacer
+
+![](figuras//decisao.gif)
+
+---
+class: inverse, center, middle
+
+#  ¿Cuales son los criterios?
+
+###comodidad, precio, prestigio, mantenimiento
+
+---
+class: inverse, center, middle
+
+#  ¿Cuál es el método para tomar una decisión?
+
+###Puedes elegir AHP
+---
+
+
+class: center, middle
+
+# buena elección!
+
+![](figuras//dic.gif)
 
 ---
 
@@ -71,17 +121,77 @@ class: inverse, center, middle
 se divide en tres pasos:
 
 - construcción de niveles jerárquicos;
+
 - Establecimiento de prioridades mediante juicios iguales de los criterios 
 establecido ;
+
 - evaluación de la coherencia lógica de los juicios de paridad.
 
 
 
 --
+---
+#Prioridades
 
+-Calcule los pesos de cada nivel y los pesos de las alternativas
 
+-Ranquear as alternativas
 
+---
+#Matriz de Paridad o Matriz de Juicio
 
+-juicios al comparar criterios
+
+--
+&lt;style type="text/css"&gt;
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:16px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg th{font-family:Arial, sans-serif;font-size:16px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg .tg-txmo{font-size:20px;font-family:"Lucida Console", Monaco, monospace !important;;color:#000000;border-color:inherit;text-align:center;vertical-align:top}
+&lt;/style&gt;
+&lt;table class="tg"&gt;
+  &lt;tr&gt;
+    &lt;th class="tg-txmo"&gt;Critérios&lt;/th&gt;
+    &lt;th class="tg-txmo"&gt;Critério1&lt;/th&gt;
+    &lt;th class="tg-txmo"&gt;Critério2   &lt;/th&gt;
+    &lt;th class="tg-txmo"&gt;Critério3&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-txmo"&gt;Critério1&lt;/td&gt;
+    &lt;td class="tg-txmo"&gt;1&lt;/td&gt;
+    &lt;td class="tg-txmo"&gt;4&lt;/td&gt;
+    &lt;td class="tg-txmo"&gt;3&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-txmo"&gt;Critério2&lt;/td&gt;
+    &lt;td class="tg-txmo"&gt;1/4&lt;/td&gt;
+    &lt;td class="tg-txmo"&gt;1&lt;/td&gt;
+    &lt;td class="tg-txmo"&gt;5&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-txmo"&gt;Critério3&lt;/td&gt;
+    &lt;td class="tg-txmo"&gt;1/3&lt;/td&gt;
+    &lt;td class="tg-txmo"&gt;1/5&lt;/td&gt;
+    &lt;td class="tg-txmo"&gt;1&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+--
+
+###Critério1    4 vezes mas importante que critério2
+
+###Recíproco: critério2    1/4 da importancia de critério1
+
+##juicios coherentes
+
+---
+#Probar la consistencia de los juicios
+
+IC = &lt;a href="https://www.codecogs.com/eqnedit.php?latex=\dpi{120}&amp;space;\LARGE&amp;space;\frac{\lambda_{max}&amp;space;-n}{n-1}" target="_blank"&gt;&lt;img src="https://latex.codecogs.com/gif.latex?\dpi{120}&amp;space;\LARGE&amp;space;\frac{\lambda_{max}&amp;space;-n}{n-1}" title="\LARGE \frac{\lambda_{max} -n}{n-1}" /&gt;&lt;/a&gt;
+
+##Grado de consistencia para cada matriz
+
+CR = IC/IA &lt; 0.1 ou 10%
 ---
 #Instalación de paquete
 
@@ -97,13 +207,31 @@ library(AHP)
 ---
 
 #Bases de datos ejemplos : BD1, BD2, BD3, BD4
-##Jerarquía BD1: comprar un auto
+###Jerarquía BD1: comprar un auto
 ###Tres Alternativas: A, B e C (modelos de autos)
 
+
 ![](figuras//carros.png)
+---
+&lt;div class="box"&gt;
+    &lt;img src="figuras//pen.gif"/&gt;
+    &lt;span&gt; A &lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="box"&gt;
+    &lt;img src="figuras//dic2.gif"/&gt;
+    &lt;span&gt; B &lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="box"&gt;
+    &lt;img src="figuras//ani.gif"/&gt;
+    &lt;span&gt; C &lt;/span&gt;
+&lt;/div&gt;
 
-
-
+&lt;style&gt;
+div.box {
+	width: 550px;
+	display: inline-block;
+}
+&lt;/style&gt;
 
 ---
 #Cálculo del grado de consistencia: CR()
@@ -191,7 +319,17 @@ ranque(tabela)
 ## 3      3 C            0.291
 ```
 
+&lt;div class="box"&gt;
+    &lt;img src="figuras//pen.gif"/&gt;
+    &lt;span&gt; A &lt;/span&gt;
+&lt;/div&gt;
 
+&lt;style&gt;
+div.box {
+	width: 250px;
+	display: inline-block;
+}
+&lt;/style&gt;
 ---
 #Formatea la tabla de resultados para la exportación: formata_tabela()
 
@@ -652,24 +790,7 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();
-// adds .remark-code-has-line-highlighted class to <pre> parent elements
-// of code chunks containing highlighted lines with class .remark-code-line-highlighted
-(function(d) {
-  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
-  const preParents = [];
-  const findPreParent = function(line, p = 0) {
-    if (p > 1) return null; // traverse up no further than grandparent
-    const el = line.parentElement;
-    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
-  };
-
-  for (let line of hlines) {
-    let pre = findPreParent(line);
-    if (pre && !preParents.includes(pre)) preParents.push(pre);
-  }
-  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
-})(document);</script>
+})();</script>
 
 <script>
 (function() {
