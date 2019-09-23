@@ -2,7 +2,7 @@
 title: "AHP Implementada em R"
 subtitle: "LatiR-2019"
 author: "Luciane Alcoforado, Orlando Longo,<br> Lyncoln Sousa, Steven Ross, <br> Alessandra Simão"
-institute: "Universidade Federal Fluminense"
+institute: "Universidade Federal Fluminense <br> Programa de Pós-Graduação em Engenharia Civil"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -516,7 +516,7 @@ Critério 3: 4 subcritérios
 
 mapeamento = c(2, 2, 4)
 
-12 tablas em arquivo xlsx em sequencia: M1(3x3), M2(2x2), M3(1x1), M5(4x4), M6 a M13(10x10)
+12 tablas em arquivo xlsx em sequencia: M1(3x3), M2(2x2), M3(1x1), M4(4x4), M5 a M12(10x10)
 ---
 
 ###ahp_geral()
