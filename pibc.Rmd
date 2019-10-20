@@ -1,0 +1,394 @@
+---
+title: "AHP Implementada em R"
+author: "Bolsista: Lyncoln Sousa de Oliveira <br> Orientadora: Luciane Ferreira Alcoforado"
+institute: "Universidade Federal Fluminense <br> Programa de Pós-Graduação em Engenharia Civil"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+<style type="text/css">
+body, td {
+   font-size: 14px;
+}
+code.r{
+  font-size: 20px;
+}
+pre {
+  font-size: 20px
+}
+.remark-slide-content {
+  font-size: 28px;
+  padding: 20px 80px 20px 80px;
+}
+.remark-code, .remark-inline-code {
+  background: #000000;
+}
+.remark-code {
+  font-size: 16px;
+}
+
+</style>
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+
+
+Estudo sobre o método AHP e criação de um pacote.
+
+Projeto PIBIC 2018/19 - Universidade Federal Fluminense
+
+Grupo de Pesquisa: Estatística com R
+
+Início: agosto de 2018
+
+Plataforma Github
+
+Linguagem: R
+
+
+
+
+---
+
+class: center, middle
+
+# Tomar decisão, estabelecer uma meta
+
+### Comprar um carro
+
+
+---
+class: inverse, center, middle
+
+#  Quais são as alternativas?
+
+### Comprar um carro: Modelo A, B e C
+
+
+
+---
+
+class: inverse, center, middle
+
+#  Quais são os critérios?
+
+###Conforto, preço, prestígio, manutenção.
+
+---
+
+# Método Utilizado para tomar a decisão
+
+**AHP** (Analytic Hierarchy Process) Criado por Saaty em 1970
+
+
+se divide em três passos:
+
+- Construção de uma hierarquia;
+
+- Estabelecimento de prioridades através de julgamentos dos critérios estabelecidos na hierarquia ;
+
+- Avaliação da coerência lógica dos julgamentos.
+
+
+---
+#Matriz de paridade de julgamentos
+
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg .tg-bkfv{font-weight:bold;font-size:28px;background-color:#ffffff;border-color:#000000;text-align:center;vertical-align:top}
+.tg .tg-zafg{font-size:28px;background-color:#ffffff;border-color:#000000;text-align:center;vertical-align:top}
+.tg .tg-913x{font-weight:bold;font-size:28px;background-color:#ffffff;border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-xpm5{font-size:28px;background-color:#c0c0c0;border-color:#000000;text-align:center;vertical-align:top}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg-bkfv">Criterios</th>
+    <th class="tg-bkfv">  C1  </th>
+    <th class="tg-bkfv">  C2  </th>
+    <th class="tg-bkfv">  C3  </th>
+  </tr>
+  <tr>
+    <td class="tg-913x">&nbsp;&nbsp;C1  &nbsp;&nbsp;</td>
+    <td class="tg-xpm5">1</td>
+    <td class="tg-zafg">4</td>
+    <td class="tg-zafg">1/6</td>
+  </tr>
+  <tr>
+    <td class="tg-913x">&nbsp;&nbsp;C2  &nbsp;&nbsp;</td>
+    <td class="tg-zafg">1/4</td>
+    <td class="tg-xpm5">1</td>
+    <td class="tg-zafg">5</td>
+  </tr>
+  <tr>
+    <td class="tg-913x">&nbsp;&nbsp;C3  &nbsp;&nbsp;</td>
+    <td class="tg-zafg">6</td>
+    <td class="tg-zafg">1/5</td>
+    <td class="tg-xpm5">1</td>
+  </tr>
+</table>
+
+
+###Analisando os pares: se C1 é mais importante que C2, então C2 é menos importante que C1. O que é consistênte
+###C1 é mais importante que C2, que é mais importante que C3, então C1 é mais importante que C3 mas C1 em julgamento foi menos importante que C3. Inconsistência!
+
+
+
+
+---
+#Teste a consistência dos julgamentos
+
+IC = <a href="https://www.codecogs.com/eqnedit.php?latex=\dpi{120}&space;\LARGE&space;\frac{\lambda_{max}&space;-n}{n-1}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\dpi{120}&space;\LARGE&space;\frac{\lambda_{max}&space;-n}{n-1}" title="\LARGE \frac{\lambda_{max} -n}{n-1}" /></a>
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\LARGE&space;\lambda&space;_{max}&space;=" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\LARGE&space;\lambda&space;_{max}&space;=" title="\LARGE \lambda _{max} =" /></a> maior autovalor da matriz de paridade
+
+n = número de critérios
+
+IA = índice de consistência aleatória (tabulado)
+
+##Grau de consistência para cada matriz
+
+CR = IC/IA < 0.1 ou 10%
+---
+#Instalação do pacote
+
+```{r}
+#install.packages("devtools")
+#devtools::install_github("Lyncoln/AHP2")
+
+library(AHP)
+```
+
+---
+
+#Verificar consistência da matriz: CR ()
+
+```{r include=FALSE}
+M = cbind(C1 = c(1, 1/4, 6),
+          C2 = c(4, 1, 1/5),
+          C3 = c(1/6, 5, 1))
+knitr::kable(as.data.frame(round(M,2)))
+```
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg .tg-bkfv{font-weight:bold;font-size:28px;background-color:#ffffff;border-color:#000000;text-align:center;vertical-align:top}
+.tg .tg-zafg{font-size:28px;background-color:#ffffff;border-color:#000000;text-align:center;vertical-align:top}
+.tg .tg-913x{font-weight:bold;font-size:28px;background-color:#ffffff;border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-xpm5{font-size:28px;background-color:#c0c0c0;border-color:#000000;text-align:center;vertical-align:top}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg-bkfv">Criterios</th>
+    <th class="tg-bkfv">  C1  </th>
+    <th class="tg-bkfv">  C2  </th>
+    <th class="tg-bkfv">  C3  </th>
+  </tr>
+  <tr>
+    <td class="tg-913x">&nbsp;&nbsp;C1  &nbsp;&nbsp;</td>
+    <td class="tg-xpm5">1</td>
+    <td class="tg-zafg">4</td>
+    <td class="tg-zafg">1/6</td>
+  </tr>
+  <tr>
+    <td class="tg-913x">&nbsp;&nbsp;C2  &nbsp;&nbsp;</td>
+    <td class="tg-zafg">1/4</td>
+    <td class="tg-xpm5">1</td>
+    <td class="tg-zafg">5</td>
+  </tr>
+  <tr>
+    <td class="tg-913x">&nbsp;&nbsp;C3  &nbsp;&nbsp;</td>
+    <td class="tg-zafg">6</td>
+    <td class="tg-zafg">1/5</td>
+    <td class="tg-xpm5">1</td>
+  </tr>
+</table>
+
+```{r}
+library(AHP)
+
+M = cbind(C1 = c(1, 1/4, 6),
+          C2 = c(4, 1, 1/5),
+          C3 = c(1/6, 5, 1))
+
+CR(M) #Inconsistente para CR > 0.1
+```
+
+---
+#Criar matrizes pareadas e testar sua consistência: matrizJulgamento()
+
+![](figuras//julgamento.png)
+**matriz_julgamento(qtd_comparacoes, CR = TRUE, qtd_matrizes = 1)**
+
+
+---
+#Exemplos de bases de dados : BD1, BD2, BD3, BD4 - tabelas em xlsx
+###Hierarquia BD1: Comprar um carro, 5 critérios, 3 alternativas
+
+```{r}
+library(AHP)
+summary(BD1)
+```
+
+
+
+---
+
+###Hierarquia:
+
+![](figuras//carros.png)
+---
+
+###Alternativas:
+<style>
+figure:hover{
+    -webkit-transform:rotate(-5deg);
+}
+figure{
+    background-color: white;
+    width: 200px;
+    text-align: center;
+    padding: 15px;
+    font-family: 'Comic Sans MS', cursive;
+    border: 1px solid white;
+    margin: auto;
+}
+#topo{
+    text-align: center;
+}
+</style>
+<section id="topo">
+            <figure id="A">
+                <img src="figuras//pen.gif"/>
+                <figcaption>A</figcaption>
+            </figure>
+          <figure id="B">
+                <img src="figuras//dic2.gif"/>
+                <figcaption>B</figcaption>
+            </figure>
+            <figure id="C">
+                <img src="figuras//ani.gif"/>
+                <figcaption>C</figcaption>
+            </figure>
+        </section>
+        
+
+---
+
+
+
+#Base BD1: comprar um carro
+5 critérios (sem subcritérios)
+
+```{r}
+library(AHP)
+BD1[1] #matriz de paridade dos critérios
+```
+---
+
+#BD1 comprar um carro
+###Cinco criterios:
+CF (conforto), AQ (aquisição), PS (prestígio), RV (revenda), MA (manutenção)
+###Três Alternativas: A, B e C (modelos de carros)
+
+```{r}
+library(AHP)
+BD1[2] #matriz de paridade do critério 1: conforto
+```
+
+etc....
+
+---
+
+#Cálcular o grau de consistência: CR()
+
+para cada uma das 6 matrizes/tabelas
+
+```{r}
+lapply(BD1, function(x) CR(x))
+
+```
+
+
+---
+
+#Cálcular os pesos das matrizes: calcula_prioridades()
+
+```{r}
+calcula_prioridades(BD1)[1]
+```
+![](figuras//carros.png)
+
+---
+#Pesos
+
+```{r}
+calcula_prioridades(BD1)
+```
+---
+#Aplicar o ahp a uma lista de matrizes formatadas corretamente: ahp_geral()
+
+```{r}
+tabela = ahp_geral(BD1)
+tabela
+```
+**ahp_geral(base, mapeamento = "PADRÃO", nomes_alternativas = "PADRÃO")**
+
+
+---
+#Classificar as alternativas de uma tabela ahp: ranque()
+
+```{r}
+ranque(tabela)
+```
+
+<div class="box">
+    <img src="figuras//pen.gif"/>
+    <span> A </span>
+</div>
+
+<style>
+div.box {
+	width: 250px;
+	display: inline-block;
+}
+</style>
+---
+#Formatar a tabela de resultados para a visualização: formata_tabela()
+
+```{r}
+formata_tabela(tabela)
+```
+
+
+
+---
+
+```{r}
+formata_tabela(tabela, cores = "BRANCO")
+```
+
+---
+
+```{r}
+formata_tabela(tabela, cores = "CINZA")
+```
+
+
+---
+
+
+class: inverse, center, middle
+
+Muito obrigado!!!
+

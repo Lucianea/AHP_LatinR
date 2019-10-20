@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>AHP Implementada em R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Bolsista: Lyncoln Sousa de Oliveira   Orientadora: Luciane Ferreira Alcoforado" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# AHP Implementada em R
+### Bolsista: Lyncoln Sousa de Oliveira <br> Orientadora: Luciane Ferreira Alcoforado
+### Universidade Federal Fluminense <br> Programa de Pós-Graduação em Engenharia Civil
+
+---
+
+
+&lt;style type="text/css"&gt;
+body, td {
+   font-size: 14px;
+}
+code.r{
+  font-size: 20px;
+}
+pre {
+  font-size: 20px
+}
+.remark-slide-content {
+  font-size: 28px;
+  padding: 20px 80px 20px 80px;
+}
+.remark-code, .remark-inline-code {
+  background: #000000;
+}
+.remark-code {
+  font-size: 16px;
+}
+
+&lt;/style&gt;
+
+
+
+
+
+Estudo sobre o método AHP e criação de um pacote.
+
+Projeto PIBIC 2018/19 - Universidade Federal Fluminense
+
+Grupo de Pesquisa: Estatística com R
+
+Início: agosto de 2018
+
+Plataforma Github
+
+Linguagem: R
+
+
+
+
+---
+
+class: center, middle
+
+# Tomar decisão, estabelecer uma meta
+
+### Comprar um carro
+
+
+---
+class: inverse, center, middle
+
+#  Quais são as alternativas?
+
+### Comprar um carro: Modelo A, B e C
+
+
+
+---
+
+class: inverse, center, middle
+
+#  Quais são os critérios?
+
+###Conforto, preço, prestígio, manutenção.
+
+---
+
+# Método Utilizado para tomar a decisão
+
+**AHP** (Analytic Hierarchy Process) Criado por Saaty em 1970
+
+
+se divide em três passos:
+
+- Construção de uma hierarquia;
+
+- Estabelecimento de prioridades através de julgamentos dos critérios estabelecidos na hierarquia ;
+
+- Avaliação da coerência lógica dos julgamentos.
+
+
+---
+#Matriz de paridade de julgamentos
+
+
+&lt;style type="text/css"&gt;
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg .tg-bkfv{font-weight:bold;font-size:28px;background-color:#ffffff;border-color:#000000;text-align:center;vertical-align:top}
+.tg .tg-zafg{font-size:28px;background-color:#ffffff;border-color:#000000;text-align:center;vertical-align:top}
+.tg .tg-913x{font-weight:bold;font-size:28px;background-color:#ffffff;border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-xpm5{font-size:28px;background-color:#c0c0c0;border-color:#000000;text-align:center;vertical-align:top}
+&lt;/style&gt;
+&lt;table class="tg"&gt;
+  &lt;tr&gt;
+    &lt;th class="tg-bkfv"&gt;Criterios&lt;/th&gt;
+    &lt;th class="tg-bkfv"&gt;  C1  &lt;/th&gt;
+    &lt;th class="tg-bkfv"&gt;  C2  &lt;/th&gt;
+    &lt;th class="tg-bkfv"&gt;  C3  &lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-913x"&gt;&amp;nbsp;&amp;nbsp;C1  &amp;nbsp;&amp;nbsp;&lt;/td&gt;
+    &lt;td class="tg-xpm5"&gt;1&lt;/td&gt;
+    &lt;td class="tg-zafg"&gt;4&lt;/td&gt;
+    &lt;td class="tg-zafg"&gt;1/6&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-913x"&gt;&amp;nbsp;&amp;nbsp;C2  &amp;nbsp;&amp;nbsp;&lt;/td&gt;
+    &lt;td class="tg-zafg"&gt;1/4&lt;/td&gt;
+    &lt;td class="tg-xpm5"&gt;1&lt;/td&gt;
+    &lt;td class="tg-zafg"&gt;5&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-913x"&gt;&amp;nbsp;&amp;nbsp;C3  &amp;nbsp;&amp;nbsp;&lt;/td&gt;
+    &lt;td class="tg-zafg"&gt;6&lt;/td&gt;
+    &lt;td class="tg-zafg"&gt;1/5&lt;/td&gt;
+    &lt;td class="tg-xpm5"&gt;1&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+
+###Analisando os pares: se C1 é mais importante que C2, então C2 é menos importante que C1. O que é consistênte
+###C1 é mais importante que C2, que é mais importante que C3, então C1 é mais importante que C3 mas C1 em julgamento foi menos importante que C3. Inconsistência!
+
+
+
+
+---
+#Teste a consistência dos julgamentos
+
+IC = &lt;a href="https://www.codecogs.com/eqnedit.php?latex=\dpi{120}&amp;space;\LARGE&amp;space;\frac{\lambda_{max}&amp;space;-n}{n-1}" target="_blank"&gt;&lt;img src="https://latex.codecogs.com/gif.latex?\dpi{120}&amp;space;\LARGE&amp;space;\frac{\lambda_{max}&amp;space;-n}{n-1}" title="\LARGE \frac{\lambda_{max} -n}{n-1}" /&gt;&lt;/a&gt;
+
+&lt;a href="https://www.codecogs.com/eqnedit.php?latex=\LARGE&amp;space;\lambda&amp;space;_{max}&amp;space;=" target="_blank"&gt;&lt;img src="https://latex.codecogs.com/gif.latex?\LARGE&amp;space;\lambda&amp;space;_{max}&amp;space;=" title="\LARGE \lambda _{max} =" /&gt;&lt;/a&gt; maior autovalor da matriz de paridade
+
+n = número de critérios
+
+IA = índice de consistência aleatória (tabulado)
+
+##Grau de consistência para cada matriz
+
+CR = IC/IA &lt; 0.1 ou 10%
+---
+#Instalação do pacote
+
+
+```r
+#install.packages("devtools")
+#devtools::install_github("Lyncoln/AHP2")
+
+library(AHP)
+```
+
+---
+
+#Verificar consistência da matriz: CR ()
+
+
+&lt;style type="text/css"&gt;
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg .tg-bkfv{font-weight:bold;font-size:28px;background-color:#ffffff;border-color:#000000;text-align:center;vertical-align:top}
+.tg .tg-zafg{font-size:28px;background-color:#ffffff;border-color:#000000;text-align:center;vertical-align:top}
+.tg .tg-913x{font-weight:bold;font-size:28px;background-color:#ffffff;border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-xpm5{font-size:28px;background-color:#c0c0c0;border-color:#000000;text-align:center;vertical-align:top}
+&lt;/style&gt;
+&lt;table class="tg"&gt;
+  &lt;tr&gt;
+    &lt;th class="tg-bkfv"&gt;Criterios&lt;/th&gt;
+    &lt;th class="tg-bkfv"&gt;  C1  &lt;/th&gt;
+    &lt;th class="tg-bkfv"&gt;  C2  &lt;/th&gt;
+    &lt;th class="tg-bkfv"&gt;  C3  &lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-913x"&gt;&amp;nbsp;&amp;nbsp;C1  &amp;nbsp;&amp;nbsp;&lt;/td&gt;
+    &lt;td class="tg-xpm5"&gt;1&lt;/td&gt;
+    &lt;td class="tg-zafg"&gt;4&lt;/td&gt;
+    &lt;td class="tg-zafg"&gt;1/6&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-913x"&gt;&amp;nbsp;&amp;nbsp;C2  &amp;nbsp;&amp;nbsp;&lt;/td&gt;
+    &lt;td class="tg-zafg"&gt;1/4&lt;/td&gt;
+    &lt;td class="tg-xpm5"&gt;1&lt;/td&gt;
+    &lt;td class="tg-zafg"&gt;5&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-913x"&gt;&amp;nbsp;&amp;nbsp;C3  &amp;nbsp;&amp;nbsp;&lt;/td&gt;
+    &lt;td class="tg-zafg"&gt;6&lt;/td&gt;
+    &lt;td class="tg-zafg"&gt;1/5&lt;/td&gt;
+    &lt;td class="tg-xpm5"&gt;1&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+
+```r
+library(AHP)
+
+M = cbind(C1 = c(1, 1/4, 6),
+          C2 = c(4, 1, 1/5),
+          C3 = c(1/6, 5, 1))
+
+CR(M) #Inconsistente para CR &gt; 0.1
+```
+
+```
+## [1] 3.014581
+```
+
+---
+#Criar matrizes pareadas e testar sua consistência: matrizJulgamento()
+
+![](figuras//julgamento.png)
+**matriz_julgamento(qtd_comparacoes, CR = TRUE, qtd_matrizes = 1)**
+
+
+---
+#Exemplos de bases de dados : BD1, BD2, BD3, BD4 - tabelas em xlsx
+###Hierarquia BD1: Comprar um carro, 5 critérios, 3 alternativas
+
+
+```r
+library(AHP)
+summary(BD1)
+```
+
+```
+##                  Length Class  Mode
+## Comprar um carro 5      tbl_df list
+## CF               3      tbl_df list
+## AQ               3      tbl_df list
+## PS               3      tbl_df list
+## RV               3      tbl_df list
+## MA               3      tbl_df list
+```
+
+
+
+---
+
+###Hierarquia:
+
+![](figuras//carros.png)
+---
+
+###Alternativas:
+&lt;style&gt;
+figure:hover{
+    -webkit-transform:rotate(-5deg);
+}
+figure{
+    background-color: white;
+    width: 200px;
+    text-align: center;
+    padding: 15px;
+    font-family: 'Comic Sans MS', cursive;
+    border: 1px solid white;
+    margin: auto;
+}
+#topo{
+    text-align: center;
+}
+&lt;/style&gt;
+&lt;section id="topo"&gt;
+            &lt;figure id="A"&gt;
+                &lt;img src="figuras//pen.gif"/&gt;
+                &lt;figcaption&gt;A&lt;/figcaption&gt;
+            &lt;/figure&gt;
+          &lt;figure id="B"&gt;
+                &lt;img src="figuras//dic2.gif"/&gt;
+                &lt;figcaption&gt;B&lt;/figcaption&gt;
+            &lt;/figure&gt;
+            &lt;figure id="C"&gt;
+                &lt;img src="figuras//ani.gif"/&gt;
+                &lt;figcaption&gt;C&lt;/figcaption&gt;
+            &lt;/figure&gt;
+        &lt;/section&gt;
+        
+
+---
+
+
+
+#Base BD1: comprar um carro
+5 critérios (sem subcritérios)
+
+
+```r
+library(AHP)
+BD1[1] #matriz de paridade dos critérios
+```
+
+```
+## $`Comprar um carro`
+## # A tibble: 5 x 5
+##    ...1  ...2  ...3  ...4  ...5
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 1     0.2       3 0.2   0.333
+## 2 5     1         5 3     3    
+## 3 0.333 0.2       1 0.333 0.333
+## 4 5     0.333     3 1     1    
+## 5 3     0.333     3 1     1
+```
+---
+
+#BD1 comprar um carro
+###Cinco criterios:
+CF (conforto), AQ (aquisição), PS (prestígio), RV (revenda), MA (manutenção)
+###Três Alternativas: A, B e C (modelos de carros)
+
+
+```r
+library(AHP)
+BD1[2] #matriz de paridade do critério 1: conforto
+```
+
+```
+## $CF
+## # A tibble: 3 x 3
+##    ...1  ...2  ...3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     1 0.333 0.167
+## 2     3 1     0.5  
+## 3     6 2     1
+```
+
+etc....
+
+---
+
+#Cálcular o grau de consistência: CR()
+
+para cada uma das 6 matrizes/tabelas
+
+
+```r
+lapply(BD1, function(x) CR(x))
+```
+
+```
+## $`Comprar um carro`
+## [1] 0.07091014
+## 
+## $CF
+## [1] 4.270089e-16
+## 
+## $AQ
+## [1] 0.05155921
+## 
+## $PS
+## [1] 0.05155921
+## 
+## $RV
+## [1] 0.008848762
+## 
+## $MA
+## [1] 0.03702989
+```
+
+
+---
+
+#Cálcular os pesos das matrizes: calcula_prioridades()
+
+
+```r
+calcula_prioridades(BD1)[1]
+```
+
+```
+## $`Comprar um carro`
+## [1] 0.08627388 0.44979358 0.05881037 0.21879372 0.18632845
+```
+![](figuras//carros.png)
+
+---
+#Pesos
+
+
+```r
+calcula_prioridades(BD1)
+```
+
+```
+## $`Comprar um carro`
+## [1] 0.08627388 0.44979358 0.05881037 0.21879372 0.18632845
+## 
+## $CF
+## [1] 0.1 0.3 0.6
+## 
+## $AQ
+## [1] 0.1958004 0.4933860 0.3108137
+## 
+## $PS
+## [1] 0.4125989 0.3274800 0.2599210
+## 
+## $RV
+## [1] 0.5396146 0.2969613 0.1634241
+## 
+## $MA
+## [1] 0.6369856 0.1047294 0.2582850
+```
+---
+#Aplicar o ahp a uma lista de matrizes formatadas corretamente: ahp_geral()
+
+
+```r
+tabela = ahp_geral(BD1)
+tabela
+```
+
+```
+## # A tibble: 6 x 6
+##   Criterios            Pesos       A      B      C       CR
+##   &lt;chr&gt;                &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+## 1 ---Comprar um carro 1      0.358   0.352  0.291  7.09e- 2
+## 2 --CF                0.0863 0.00863 0.0259 0.0518 4.27e-16
+## 3 --AQ                0.450  0.0881  0.222  0.140  5.16e- 2
+## 4 --PS                0.0588 0.0243  0.0193 0.0153 5.16e- 2
+## 5 --RV                0.219  0.118   0.0650 0.0358 8.85e- 3
+## 6 --MA                0.186  0.119   0.0195 0.0481 3.70e- 2
+```
+**ahp_geral(base, mapeamento = "PADRÃO", nomes_alternativas = "PADRÃO")**
+
+
+---
+#Classificar as alternativas de uma tabela ahp: ranque()
+
+
+```r
+ranque(tabela)
+```
+
+```
+## # A tibble: 3 x 3
+##   Ranque Alternativas Pesos
+##    &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;
+## 1      1 A            0.358
+## 2      2 B            0.352
+## 3      3 C            0.291
+```
+
+&lt;div class="box"&gt;
+    &lt;img src="figuras//pen.gif"/&gt;
+    &lt;span&gt; A &lt;/span&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+div.box {
+	width: 250px;
+	display: inline-block;
+}
+&lt;/style&gt;
+---
+#Formatar a tabela de resultados para a visualização: formata_tabela()
+
+
+```r
+formata_tabela(tabela)
+```
+
+
+&lt;table class="table table-condensed"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Criterios &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Pesos &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; A &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; B &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; C &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; CR &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;---Comprar um carro&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span&gt;100%  &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="font-weight: bold; font-size: 130%"&gt;35.77%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span&gt;35.16%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span&gt;29.07%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;7.09%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--CF               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #d6f3e3; border-radius: 4px; color: black; display: block"&gt;8.63% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #b6d4ff; border-radius: 4px; color: black; display: block"&gt;0.86% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #a7cafb; border-radius: 4px; color: black; display: block"&gt;2.59% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #91bcf6; border-radius: 4px; color: black; display: block"&gt;5.18% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;0%   &lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--AQ               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #71ca97; border-radius: 4px; color: black; display: block"&gt;44.98%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #72a8ee; border-radius: 4px; color: black; display: block"&gt;8.81% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #0060d3; border-radius: 4px; color: black; display: block"&gt;22.19%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #468ce3; border-radius: 4px; color: black; display: block"&gt;13.98%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;5.16%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--PS               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #def7e9; border-radius: 4px; color: black; display: block"&gt;5.88% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #a8cbfb; border-radius: 4px; color: black; display: block"&gt;2.43% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #accefc; border-radius: 4px; color: black; display: block"&gt;1.93% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #b0d0fd; border-radius: 4px; color: black; display: block"&gt;1.53% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;5.16%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--RV               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #b1e4c7; border-radius: 4px; color: black; display: block"&gt;21.88%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #5898e8; border-radius: 4px; color: black; display: block"&gt;11.81%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #85b5f3; border-radius: 4px; color: black; display: block"&gt;6.5%  &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9ec5f9; border-radius: 4px; color: black; display: block"&gt;3.58% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;0.88%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--MA               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #bae8ce; border-radius: 4px; color: black; display: block"&gt;18.63%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #5898e8; border-radius: 4px; color: black; display: block"&gt;11.87%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #accefc; border-radius: 4px; color: black; display: block"&gt;1.95% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #94bef6; border-radius: 4px; color: black; display: block"&gt;4.81% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #B0FFD5; border-radius: 4px; color: black; display: block"&gt;3.7% &lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+
+---
+
+
+```r
+formata_tabela(tabela, cores = "BRANCO")
+```
+
+
+&lt;table class="table table-condensed"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Criterios &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Pesos &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; A &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; B &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; C &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; CR &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;---Comprar um carro&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span&gt;100%  &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="font-weight: bold; font-size: 130%"&gt;35.77%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span&gt;35.16%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span&gt;29.07%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;7.09%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--CF               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;8.63% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;0.86% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;2.59% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;5.18% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;0%   &lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--AQ               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;44.98%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;8.81% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;22.19%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;13.98%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;5.16%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--PS               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;5.88% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;2.43% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;1.93% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;1.53% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;5.16%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--RV               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;21.88%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;11.81%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;6.5%  &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;3.58% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;0.88%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--MA               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;18.63%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;11.87%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;1.95% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;4.81% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #ffffff; border-radius: 4px; color: black; display: block"&gt;3.7% &lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+
+```r
+formata_tabela(tabela, cores = "CINZA")
+```
+
+
+&lt;table class="table table-condensed"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Criterios &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Pesos &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; A &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; B &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; C &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; CR &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;---Comprar um carro&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span&gt;100%  &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="font-weight: bold; font-size: 130%"&gt;35.77%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span&gt;35.16%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span&gt;29.07%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9e9e9e; border-radius: 4px; color: white; display: block"&gt;7.09%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--CF               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #989898; border-radius: 4px; color: white; display: block"&gt;8.63% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9e9e9e; border-radius: 4px; color: white; display: block"&gt;0.86% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #979797; border-radius: 4px; color: white; display: block"&gt;2.59% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #8e8e8e; border-radius: 4px; color: white; display: block"&gt;5.18% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9e9e9e; border-radius: 4px; color: white; display: block"&gt;0%   &lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--AQ               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #4f4f4f; border-radius: 4px; color: white; display: block"&gt;44.98%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #808080; border-radius: 4px; color: white; display: block"&gt;8.81% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #4f4f4f; border-radius: 4px; color: white; display: block"&gt;22.19%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #6d6d6d; border-radius: 4px; color: white; display: block"&gt;13.98%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9e9e9e; border-radius: 4px; color: white; display: block"&gt;5.16%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--PS               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9e9e9e; border-radius: 4px; color: white; display: block"&gt;5.88% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #989898; border-radius: 4px; color: white; display: block"&gt;2.43% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9a9a9a; border-radius: 4px; color: white; display: block"&gt;1.93% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9b9b9b; border-radius: 4px; color: white; display: block"&gt;1.53% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9e9e9e; border-radius: 4px; color: white; display: block"&gt;5.16%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--RV               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #7d7d7d; border-radius: 4px; color: white; display: block"&gt;21.88%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #757575; border-radius: 4px; color: white; display: block"&gt;11.81%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #898989; border-radius: 4px; color: white; display: block"&gt;6.5%  &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #939393; border-radius: 4px; color: white; display: block"&gt;3.58% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9e9e9e; border-radius: 4px; color: white; display: block"&gt;0.88%&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="color: grey; font-weight: bold"&gt;--MA               &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #848484; border-radius: 4px; color: white; display: block"&gt;18.63%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #757575; border-radius: 4px; color: white; display: block"&gt;11.87%&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #999999; border-radius: 4px; color: white; display: block"&gt;1.95% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #8f8f8f; border-radius: 4px; color: white; display: block"&gt;4.81% &lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;span style="background-color: #9e9e9e; border-radius: 4px; color: white; display: block"&gt;3.7% &lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+---
+
+
+class: inverse, center, middle
+
+Muito obrigado!!!
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
